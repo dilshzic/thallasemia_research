@@ -1,0 +1,4 @@
+"Test","Statistic","df","p_value","Significant"
+"Chi-Square: Education vs Knowledge Level",32.8642939509267,3,3.44009089098942e-07,"Yes"
+"Chi-Square: Family History vs Family Disclosure",0.011892838439382,1,0.913159428884133,"No"
+"Chi-Square: Marital Status vs Partner Screening Practice",0.00363245662919171,1,0.951940702533178,"No"

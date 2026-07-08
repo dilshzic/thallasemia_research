@@ -1,0 +1,13 @@
+[x] Knowledge score Z-score (Completed)
+
+Practices analysis
+
+Analysis reports
+
+Descriptive Statistics
+
+Inferential
+
+Chi sq
+
+[x] Need to create a z-score for knowledge scores (Completed: calculate_zscores.py)

@@ -1,0 +1,4 @@
+Attitude calculation refinement
+
+
+Weighted positive neg proper implementation 

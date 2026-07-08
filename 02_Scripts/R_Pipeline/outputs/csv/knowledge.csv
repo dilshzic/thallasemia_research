@@ -1,0 +1,67 @@
+"Question_ID","Question","Response","Frequency","Percentage"
+"Q15","15. Is thalassemia a blood-related disease?","Yes",181,90.0497512437811
+"Q15","15. Is thalassemia a blood-related disease?","Don’t know",16,7.96019900497512
+"Q15","15. Is thalassemia a blood-related disease?","No",4,1.99004975124378
+"Q17","17. What is the most severe form of thalassemia?","Thalassemia major (severe form)",126,62.6865671641791
+"Q17","17. What is the most severe form of thalassemia?","I don’t know",61,30.3482587064677
+"Q17","17. What is the most severe form of thalassemia?","Thalassemia minor or trait (carrier form)",7,3.48258706467662
+"Q17","17. What is the most severe form of thalassemia?","Thalassemia major (severe form) Thalassemia minor or trait (carrier form)",4,1.99004975124378
+"Q17","17. What is the most severe form of thalassemia?","Missing/No Response",2,0.995024875621891
+"Q17","17. What is the most severe form of thalassemia?","Thalassemia major (severe form) I don’t know",1,0.497512437810945
+"Q18","18. What form of thalassemia do you have?","Thalassemia minor or trait (carrier form)",173,86.0696517412935
+"Q18","18. What form of thalassemia do you have?","I don’t know",18,8.95522388059701
+"Q18","18. What form of thalassemia do you have?","Thalassemia major (severe form)",6,2.98507462686567
+"Q18","18. What form of thalassemia do you have?","Missing/No Response",3,1.49253731343284
+"Q18","18. What form of thalassemia do you have?","Thalassemia intermedia (moderate form)",1,0.497512437810945
+"Q19","19. Does thalassemia major require lifelong treatment?","Yes",129,64.1791044776119
+"Q19","19. Does thalassemia major require lifelong treatment?","Don’t know",60,29.8507462686567
+"Q19","19. Does thalassemia major require lifelong treatment?","No",11,5.4726368159204
+"Q19","19. Does thalassemia major require lifelong treatment?","Missing/No Response",1,0.497512437810945
+"Q20","20. Can thalassemia major be cured?","Cannot be cured",96,47.7611940298507
+"Q20","20. Can thalassemia major be cured?","Don’t know",67,33.3333333333333
+"Q20","20. Can thalassemia major be cured?","Very difficult (e.g., bone marrow transplant)",30,14.9253731343284
+"Q20","20. Can thalassemia major be cured?","Can be cured with common treatments",8,3.98009950248756
+"Q21","21. Can the spread of thalassemia be prevented?","Can be prevented",151,75.1243781094527
+"Q21","21. Can the spread of thalassemia be prevented?","Not sure",40,19.9004975124378
+"Q21","21. Can the spread of thalassemia be prevented?","Cannot be prevented",10,4.97512437810945
+"Q22","22. How is thalassemia transmitted?","From generation to generation (hereditary)",179,89.0547263681592
+"Q22","22. How is thalassemia transmitted?","Don’t know",19,9.45273631840796
+"Q22","22. How is thalassemia transmitted?","Missing/No Response",2,0.995024875621891
+"Q22","22. How is thalassemia transmitted?","As a contagious disease",1,0.497512437810945
+"Q23","23. Is a thalassemia carrier usually sick or healthy?","Healthy",166,82.5870646766169
+"Q23","23. Is a thalassemia carrier usually sick or healthy?","Not healthy",20,9.95024875621891
+"Q23","23. Is a thalassemia carrier usually sick or healthy?","Don’t know",14,6.96517412935323
+"Q23","23. Is a thalassemia carrier usually sick or healthy?","Missing/No Response",1,0.497512437810945
+"Q24","24. A child born from two thalassemia carriers will be:","Has a chance to be affected (e.g., 25%)",121,60.1990049751244
+"Q24","24. A child born from two thalassemia carriers will be:","Always affected by thalassemia",59,29.3532338308458
+"Q24","24. A child born from two thalassemia carriers will be:","Don’t know",16,7.96019900497512
+"Q24","24. A child born from two thalassemia carriers will be:","Always healthy",4,1.99004975124378
+"Q24","24. A child born from two thalassemia carriers will be:","Missing/No Response",1,0.497512437810945
+"Q25","25. After diagnosis, was counseling/information sufficient?","Yes",136,67.6616915422886
+"Q25","25. After diagnosis, was counseling/information sufficient?","No",58,28.8557213930348
+"Q25","25. After diagnosis, was counseling/information sufficient?","Missing/No Response",7,3.48258706467662
+"Q26","26. How many thalassemia births occur in Sri Lanka per year?","Don’t know",190,94.5273631840796
+"Q26","26. How many thalassemia births occur in Sri Lanka per year?","40–100",8,3.98009950248756
+"Q26","26. How many thalassemia births occur in Sri Lanka per year?","Much less than this (<40)",2,0.995024875621891
+"Q26","26. How many thalassemia births occur in Sri Lanka per year?","More than this (>100)",1,0.497512437810945
+"Q29","29. How did you learn about thalassemia?","Only found out after screening",84,41.7910447761194
+"Q29","29. How did you learn about thalassemia?","School",58,28.8557213930348
+"Q29","29. How did you learn about thalassemia?","Healthcare staff (doctors and nurses)",35,17.4129353233831
+"Q29","29. How did you learn about thalassemia?","Family",17,8.45771144278607
+"Q29","29. How did you learn about thalassemia?","Mass media (TV, newspapers, social media)",7,3.48258706467662
+"Q16","What are the clinical forms of thalassemia?","Thalassemia major (severe form)",147,73.134328358209
+"Q16","What are the clinical forms of thalassemia?","Thalassemia minor or trait (carrier form)",146,72.636815920398
+"Q16","What are the clinical forms of thalassemia?","I don’t know",48,23.8805970149254
+"Q16","What are the clinical forms of thalassemia?","Thalassemia intermedia (moderate form)",15,7.46268656716418
+"Q27","Problems faced by thalassemia major patients","Regular blood transfusions for life",169,84.0796019900498
+"Q27","Problems faced by thalassemia major patients","Fatigue",64,31.8407960199005
+"Q27","Problems faced by thalassemia major patients","Iron overload affecting heart and liver",53,26.3681592039801
+"Q27","Problems faced by thalassemia major patients","Delayed growth and puberty",48,23.8805970149254
+"Q27","Problems faced by thalassemia major patients","Bone deformities",41,20.3980099502488
+"Q27","Problems faced by thalassemia major patients","Risk of infections from transfusions",39,19.4029850746269
+"Q27","Problems faced by thalassemia major patients","Frequent nosebleeds",29,14.4278606965174
+"Q27","Problems faced by thalassemia major patients","Risk of diabetes, infertility, and hormonal issues",15,7.46268656716418
+"Q28","What should a thalassemia carrier do after diagnosis?","Get the partner tested before marriage",159,79.1044776119403
+"Q28","What should a thalassemia carrier do after diagnosis?","Get family members tested",158,78.6069651741294
+"Q28","What should a thalassemia carrier do after diagnosis?","I don’t know",15,7.46268656716418
+"Q28","What should a thalassemia carrier do after diagnosis?","Ignore it",0,0

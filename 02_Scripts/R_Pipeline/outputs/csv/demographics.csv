@@ -1,0 +1,94 @@
+"Question_ID","Question","Response","Frequency","Percentage"
+"Q1_Summary","1. Age (Numerical Stats)","Mean Age",NA,29.9447236180905
+"Q1_Summary","1. Age (Numerical Stats)","Standard Deviation",NA,9.90163540206104
+"Q1_Summary","1. Age (Numerical Stats)","Median Age",NA,26
+"Q1_Summary","1. Age (Numerical Stats)","Min Age",NA,15
+"Q1_Summary","1. Age (Numerical Stats)","Max Age",NA,63
+"Q1_Groups","Age_Group","25-34",77,38.3084577114428
+"Q1_Groups","Age_Group","18-24",71,35.3233830845771
+"Q1_Groups","Age_Group","35-44",28,13.9303482587065
+"Q1_Groups","Age_Group","45-54",15,7.46268656716418
+"Q1_Groups","Age_Group","55+",7,3.48258706467662
+"Q1_Groups","Age_Group","Missing/No Response",3,1.49253731343284
+"Q2","2. Gender:","Female",115,57.2139303482587
+"Q2","2. Gender:","Male",85,42.2885572139304
+"Q2","2. Gender:","Missing/No Response",1,0.497512437810945
+"Q3","3. Ethnicity:","Sinhalese",195,97.0149253731343
+"Q3","3. Ethnicity:","Tamil",5,2.48756218905473
+"Q3","3. Ethnicity:","Missing/No Response",1,0.497512437810945
+"Q4","4. Religion","Buddhist",176,87.5621890547264
+"Q4","4. Religion","Roman Catholic",13,6.46766169154229
+"Q4","4. Religion","Christian",6,2.98507462686567
+"Q4","4. Religion","Hindu",5,2.48756218905473
+"Q4","4. Religion","Missing/No Response",1,0.497512437810945
+"Q5","5. Occupation:","Not employed",76,37.8109452736318
+"Q5","5. Occupation:","Private sector",66,32.8358208955224
+"Q5","5. Occupation:","Government sector",48,23.8805970149254
+"Q5","5. Occupation:","Self-employed",8,3.98009950248756
+"Q5","5. Occupation:","Missing/No Response",3,1.49253731343284
+"Q6","6. Monthly Income (LKR):","Missing/No Response",74,36.81592039801
+"Q6","6. Monthly Income (LKR):","51,000 – 100,000",66,32.8358208955224
+"Q6","6. Monthly Income (LKR):","25,000 – 50,000",42,20.8955223880597
+"Q6","6. Monthly Income (LKR):","> 100,000",14,6.96517412935323
+"Q6","6. Monthly Income (LKR):","< 25,000",5,2.48756218905473
+"Q7","7. Education Level:","Up to A/L",83,41.2935323383085
+"Q7","7. Education Level:","Undergraduate",43,21.3930348258706
+"Q7","7. Education Level:","Up to O/L",37,18.407960199005
+"Q7","7. Education Level:","Graduate",36,17.910447761194
+"Q7","7. Education Level:","Missing/No Response",2,0.995024875621891
+"Q8","8. Residing Province:","Western",120,59.7014925373134
+"Q8","8. Residing Province:","North Western",41,20.3980099502488
+"Q8","8. Residing Province:","Eastern",11,5.4726368159204
+"Q8","8. Residing Province:","North Central",9,4.47761194029851
+"Q8","8. Residing Province:","Central",6,2.98507462686567
+"Q8","8. Residing Province:","Sabaragamuwa",5,2.48756218905473
+"Q8","8. Residing Province:","Southern",4,1.99004975124378
+"Q8","8. Residing Province:","Uva",4,1.99004975124378
+"Q8","8. Residing Province:","Northern",1,0.497512437810945
+"Q9","9. Marital Status","Single",131,65.1741293532338
+"Q9","9. Marital Status","Married",70,34.8258706467662
+"Q10","10. Do you have children?","Missing/No Response",131,65.1741293532338
+"Q10","10. Do you have children?","Yes, more than one child",31,15.4228855721393
+"Q10","10. Do you have children?","Yes, only one child",20,9.95024875621891
+"Q10","10. Do you have children?","No children",19,9.45273631840796
+"Q11","11. Do you have a family history of an inherited blood disorder?","No",137,68.1592039800995
+"Q11","11. Do you have a family history of an inherited blood disorder?","Yes",39,19.4029850746269
+"Q11","11. Do you have a family history of an inherited blood disorder?","I don’t know",22,10.9452736318408
+"Q11","11. Do you have a family history of an inherited blood disorder?","Missing/No Response",3,1.49253731343284
+"Q12","12. If yes, please specify","Missing/No Response",164,81.592039800995
+"Q12","12. If yes, please specify","Thalassemia",13,6.46766169154229
+"Q12","12. If yes, please specify","Thalassemia trait",7,3.48258706467662
+"Q12","12. If yes, please specify","Anemia",2,0.995024875621891
+"Q12","12. If yes, please specify","Family relative has thal major",1,0.497512437810945
+"Q12","12. If yes, please specify","Father had polycythemia",1,0.497512437810945
+"Q12","12. If yes, please specify","Had thal carrier history",1,0.497512437810945
+"Q12","12. If yes, please specify","In",1,0.497512437810945
+"Q12","12. If yes, please specify","Lukemia",1,0.497512437810945
+"Q12","12. If yes, please specify","Mother and grand mother have low hemoglobin levels",1,0.497512437810945
+"Q12","12. If yes, please specify","One cousin with Thalassemia major",1,0.497512437810945
+"Q12","12. If yes, please specify","Thal minor father",1,0.497512437810945
+"Q12","12. If yes, please specify","Thalasemia",1,0.497512437810945
+"Q12","12. If yes, please specify","Thalassemia Relatives",1,0.497512437810945
+"Q12","12. If yes, please specify","Thalassemia carrier",1,0.497512437810945
+"Q12","12. If yes, please specify","Thalesaemia",1,0.497512437810945
+"Q12","12. If yes, please specify","Thallasemia trait",1,0.497512437810945
+"Q12","12. If yes, please specify","Thaltrait uncle",1,0.497512437810945
+"Q12","12. If yes, please specify","father had thal trait",1,0.497512437810945
+"Q13","Diagnosis_Year","Missing/No Response",80,39.8009950248756
+"Q13","Diagnosis_Year","2023",40,19.9004975124378
+"Q13","Diagnosis_Year","2019",27,13.4328358208955
+"Q13","Diagnosis_Year","2022",15,7.46268656716418
+"Q13","Diagnosis_Year","2024",14,6.96517412935323
+"Q13","Diagnosis_Year","2020",13,6.46766169154229
+"Q13","Diagnosis_Year","2025",4,1.99004975124378
+"Q13","Diagnosis_Year","2021",3,1.49253731343284
+"Q13","Diagnosis_Year","2018",2,0.995024875621891
+"Q13","Diagnosis_Year","2013",1,0.497512437810945
+"Q13","Diagnosis_Year","2016",1,0.497512437810945
+"Q13","Diagnosis_Year","2017",1,0.497512437810945
+"Q14","14. Where were you diagnosed as a thalassemia carrier?","During school/university",98,48.7562189054726
+"Q14","14. Where were you diagnosed as a thalassemia carrier?","During community screening",46,22.8855721393035
+"Q14","14. Where were you diagnosed as a thalassemia carrier?","At workplace",40,19.9004975124378
+"Q14","14. Where were you diagnosed as a thalassemia carrier?","Individual or family screening after a relative was diagnosed",9,4.47761194029851
+"Q14","14. Where were you diagnosed as a thalassemia carrier?","Referral by a doctor",7,3.48258706467662
+"Q14","14. Where were you diagnosed as a thalassemia carrier?","Missing/No Response",1,0.497512437810945

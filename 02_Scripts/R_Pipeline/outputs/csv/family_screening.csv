@@ -1,0 +1,45 @@
+"Question_ID","Question","Response","Frequency","Percentage"
+"Q35","35. Do you think is it important for your family members to undergo screening?","Agree",191,95.0248756218905
+"Q35","35. Do you think is it important for your family members to undergo screening?","Don’t know",5,2.48756218905473
+"Q35","35. Do you think is it important for your family members to undergo screening?","Disagree",4,1.99004975124378
+"Q35","35. Do you think is it important for your family members to undergo screening?","Missing/No Response",1,0.497512437810945
+"Q36","36. Do your family members know your thalassemia status?","Yes",182,90.547263681592
+"Q36","36. Do your family members know your thalassemia status?","No",15,7.46268656716418
+"Q36","36. Do your family members know your thalassemia status?","Missing/No Response",4,1.99004975124378
+"Q37_FirstDegree","First-degree relatives (parents, siblings, children):","All",80,39.8009950248756
+"Q37_FirstDegree","First-degree relatives (parents, siblings, children):","Some",70,34.8258706467662
+"Q37_FirstDegree","First-degree relatives (parents, siblings, children):","None",45,22.3880597014925
+"Q37_FirstDegree","First-degree relatives (parents, siblings, children):","Don't know",6,2.98507462686567
+"Q37_SecondDegree","Second-degree relatives (grandparents, uncles, aunts):","None",109,54.228855721393
+"Q37_SecondDegree","Second-degree relatives (grandparents, uncles, aunts):","Some",41,20.3980099502488
+"Q37_SecondDegree","Second-degree relatives (grandparents, uncles, aunts):","Don't know",35,17.4129353233831
+"Q37_SecondDegree","Second-degree relatives (grandparents, uncles, aunts):","All",10,4.97512437810945
+"Q37_SecondDegree","Second-degree relatives (grandparents, uncles, aunts):","Missing/No Response",6,2.98507462686567
+"Q37_ThirdDegree","Third-degree relatives (cousins, etc.):","None",105,52.2388059701493
+"Q37_ThirdDegree","Third-degree relatives (cousins, etc.):","Don't know",73,36.318407960199
+"Q37_ThirdDegree","Third-degree relatives (cousins, etc.):","Missing/No Response",9,4.47761194029851
+"Q37_ThirdDegree","Third-degree relatives (cousins, etc.):","Some",9,4.47761194029851
+"Q37_ThirdDegree","Third-degree relatives (cousins, etc.):","All",5,2.48756218905473
+"Q38_Barriers","If not screened, what were the reasons?","Lack of knowledge",98,48.7562189054726
+"Q38_Barriers","If not screened, what were the reasons?","Perception that screening was unnecessary",51,25.3731343283582
+"Q38_Barriers","If not screened, what were the reasons?","Concern about stigma or discrimination",21,10.4477611940298
+"Q38_Barriers","If not screened, what were the reasons?","Cost or access issues",14,6.96517412935323
+"Q38_Barriers","If not screened, what were the reasons?","Other",8,3.98009950248756
+"Q38_Barriers","If not screened, what were the reasons?","Fear of result",7,3.48258706467662
+"Q38_Other","If other please specify...81","Missing/No Response",195,97.0149253731343
+"Q38_Other","If other please specify...81","All are screened",1,0.497512437810945
+"Q38_Other","If other please specify...81","Due busy schedules",1,0.497512437810945
+"Q38_Other","If other please specify...81","Lack of time",1,0.497512437810945
+"Q38_Other","If other please specify...81","Parents are above 60 and other siblings have already married and have children. Child is not still at the marrigable age.",1,0.497512437810945
+"Q38_Other","If other please specify...81","Waiting for appropriate age for children",1,0.497512437810945
+"Q38_Other","If other please specify...81","Willing to do before marriage of children",1,0.497512437810945
+"Q39","39. How easy is it to convince relatives to undergo screening?","Somewhat easy",93,46.2686567164179
+"Q39","39. How easy is it to convince relatives to undergo screening?","Difficult",38,18.9054726368159
+"Q39","39. How easy is it to convince relatives to undergo screening?","Not sure",33,16.4179104477612
+"Q39","39. How easy is it to convince relatives to undergo screening?","Very easy",29,14.4278606965174
+"Q39","39. How easy is it to convince relatives to undergo screening?","Missing/No Response",8,3.98009950248756
+"Q40","40. How important is cascade screening in thalassemia prevention?","Very important",118,58.7064676616915
+"Q40","40. How important is cascade screening in thalassemia prevention?","Important",70,34.8258706467662
+"Q40","40. How important is cascade screening in thalassemia prevention?","Slightly important",8,3.98009950248756
+"Q40","40. How important is cascade screening in thalassemia prevention?","Missing/No Response",3,1.49253731343284
+"Q40","40. How important is cascade screening in thalassemia prevention?","Not important",2,0.995024875621891

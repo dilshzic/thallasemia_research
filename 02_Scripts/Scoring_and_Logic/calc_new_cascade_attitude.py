@@ -1,0 +1,116 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+
+excel_file = '/home/dilshan/Desktop/Thallasemia research/01_Data/Raw_Data/Thalassemia_Research.xlsx'
+df = pd.read_excel(excel_file, sheet_name=0)
+
+charts_dir = '/home/dilshan/Desktop/Thallasemia research/04_Visualizations/Root_Charts/attitude_v2'
+os.makedirs(charts_dir, exist_ok=True)
+
+# Map single choice columns
+q35_col = [c for c in df.columns if c.startswith('35.')][0]
+q35_scores = {
+    'agree': 1,
+    'disagree': -1,
+    'don’t know': 0,
+    'don\'t know': 0
+}
+
+q36_col = [c for c in df.columns if c.startswith('36.')][0]
+q36_scores = {
+    'yes': 1,
+    'no': -1
+}
+
+q40_col = [c for c in df.columns if c.startswith('40.')][0]
+q40_scores = {
+    'very important': 1,
+    'important': 1,
+    'slightly important': 0,
+    'not important': -1
+}
+
+def get_single_score(val, score_dict):
+    if pd.isna(val):
+        return 0
+    v_str = str(val).strip().lower()
+    for k, s in score_dict.items():
+        if k in v_str:
+            return s
+    return 0
+
+# Calculate new scores
+scores = []
+for index, row in df.iterrows():
+    s = 0
+    s += get_single_score(row[q35_col], q35_scores)
+    s += get_single_score(row[q36_col], q36_scores)
+    s += get_single_score(row[q40_col], q40_scores)
+    scores.append(s)
+
+df['New_Cascade_Attitude_Score'] = scores
+
+# Save CSV
+out_csv = '/home/dilshan/Desktop/Thallasemia research/01_Data/Processed_Data/Participant_New_Cascade_Attitude.csv'
+if '_id' in df.columns:
+    df[['_id', 'New_Cascade_Attitude_Score']].to_csv(out_csv, index=False)
+else:
+    pd.DataFrame({'New_Cascade_Attitude_Score': scores}).to_csv(out_csv, index=False)
+
+# Custom 1D KMeans
+def kmeans_1d(X, k=3, max_iters=100):
+    np.random.seed(42)
+    centroids = np.random.choice(X, size=k, replace=False)
+    for _ in range(max_iters):
+        distances = np.abs(X[:, np.newaxis] - centroids)
+        clusters = np.argmin(distances, axis=1)
+        new_centroids = np.array([X[clusters == i].mean() if len(X[clusters == i]) > 0 else centroids[i] for i in range(k)])
+        if np.all(centroids == new_centroids):
+            break
+        centroids = new_centroids
+    return clusters, centroids
+
+X = df['New_Cascade_Attitude_Score'].values
+clusters, centers = kmeans_1d(X, k=3)
+sorted_idx = np.argsort(centers)
+mapping = {sorted_idx[0]: 'Negative/Low', sorted_idx[1]: 'Neutral/Medium', sorted_idx[2]: 'Positive/High'}
+df['Cluster'] = [mapping[c] for c in clusters]
+
+# Plots
+# 1. Dist
+plt.figure(figsize=(10, 6))
+sns.histplot(df['New_Cascade_Attitude_Score'], bins=8, kde=True, color='teal', edgecolor='black')
+plt.title('Distribution of New Cascade Screening Attitude Scores', fontsize=16)
+plt.axvline(0, color='black', linestyle='dotted', label='Zero (Neutral)')
+plt.legend()
+plt.tight_layout()
+plt.savefig(os.path.join(charts_dir, 'New_Cascade_Dist.png'))
+plt.close()
+
+# 2. Dot Plot
+sorted_s = df['New_Cascade_Attitude_Score'].sort_values().values
+plt.figure(figsize=(12, 7))
+plt.plot(range(len(sorted_s)), sorted_s, marker='o', linestyle='', color='orange')
+plt.title('Sorted New Cascade Screening Attitude Scores', fontsize=16)
+plt.axhline(0, color='black', linestyle='dotted')
+plt.tight_layout()
+plt.savefig(os.path.join(charts_dir, 'New_Cascade_DotPlot.png'))
+plt.close()
+
+# 3. KMeans Plot
+plt.figure(figsize=(10, 6))
+colors = {'Negative/Low': 'red', 'Neutral/Medium': 'orange', 'Positive/High': 'green'}
+for level, color in colors.items():
+    subset = df[df['Cluster'] == level]
+    plt.scatter(subset.index, subset['New_Cascade_Attitude_Score'], c=color, label=f"{level} (n={len(subset)})")
+plt.title('K-Means Clusters for New Cascade Screening Attitude', fontsize=16)
+plt.axhline(0, color='black', linestyle='dotted')
+plt.legend()
+plt.tight_layout()
+plt.savefig(os.path.join(charts_dir, 'New_Cascade_KMeans.png'))
+plt.close()
+
+print("New cascade attitude scores calculated and saved successfully.")

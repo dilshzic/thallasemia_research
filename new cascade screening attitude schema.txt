@@ -1,0 +1,14 @@
+35. Do you think is it important for your family members to undergo screening?
+    Agree +1
+    Disagree -1
+    Don't know 0
+
+36. Do your family members know your thalassemia status?
+    Yes +1
+    No -1
+
+40. How important is cascade screening in thalassemia prevention?
+    Very important +2
+    Important +1
+    Slightly important 0
+    Not important -1

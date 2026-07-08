@@ -1,0 +1,94 @@
+Question_ID,Question,Response,Frequency,Percentage
+Q1_Summary,1. Age (Numerical Stats),Mean Age,,29.944723618090453
+Q1_Summary,1. Age (Numerical Stats),Standard Deviation,,9.901635402061038
+Q1_Summary,1. Age (Numerical Stats),Median Age,,26.0
+Q1_Summary,1. Age (Numerical Stats),Min Age,,15.0
+Q1_Summary,1. Age (Numerical Stats),Max Age,,63.0
+Q1_Groups,Age_Group,25-34,77.0,38.308457711442784
+Q1_Groups,Age_Group,18-24,71.0,35.32338308457712
+Q1_Groups,Age_Group,35-44,28.0,13.930348258706468
+Q1_Groups,Age_Group,45-54,15.0,7.462686567164178
+Q1_Groups,Age_Group,55+,7.0,3.482587064676617
+Q1_Groups,Age_Group,Missing/No Response,3.0,1.4925373134328357
+Q2,2. Gender:,Female,115.0,57.2139303482587
+Q2,2. Gender:,Male,85.0,42.28855721393035
+Q2,2. Gender:,Missing/No Response,1.0,0.4975124378109453
+Q3,3. Ethnicity:,Sinhalese,195.0,97.01492537313433
+Q3,3. Ethnicity:,Tamil,5.0,2.4875621890547266
+Q3,3. Ethnicity:,Missing/No Response,1.0,0.4975124378109453
+Q4,4. Religion,Buddhist,176.0,87.56218905472637
+Q4,4. Religion,Roman Catholic,13.0,6.467661691542288
+Q4,4. Religion,Christian,6.0,2.9850746268656714
+Q4,4. Religion,Hindu,5.0,2.4875621890547266
+Q4,4. Religion,Missing/No Response,1.0,0.4975124378109453
+Q5,5. Occupation:,Not employed,76.0,37.81094527363184
+Q5,5. Occupation:,Private sector,66.0,32.83582089552239
+Q5,5. Occupation:,Government sector,48.0,23.88059701492537
+Q5,5. Occupation:,Self-employed,8.0,3.9800995024875623
+Q5,5. Occupation:,Missing/No Response,3.0,1.4925373134328357
+Q6,6. Monthly Income (LKR):,Missing/No Response,74.0,36.81592039800995
+Q6,6. Monthly Income (LKR):,"51,000 – 100,000",66.0,32.83582089552239
+Q6,6. Monthly Income (LKR):,"25,000 – 50,000",42.0,20.8955223880597
+Q6,6. Monthly Income (LKR):,"> 100,000",14.0,6.965174129353234
+Q6,6. Monthly Income (LKR):,"< 25,000",5.0,2.4875621890547266
+Q7,7. Education Level:,Up to A/L,83.0,41.29353233830846
+Q7,7. Education Level:,Undergraduate,43.0,21.393034825870647
+Q7,7. Education Level:,Up to O/L,37.0,18.407960199004975
+Q7,7. Education Level:,Graduate,36.0,17.91044776119403
+Q7,7. Education Level:,Missing/No Response,2.0,0.9950248756218906
+Q8,8. Residing Province:,Western,120.0,59.70149253731343
+Q8,8. Residing Province:,North Western,41.0,20.398009950248756
+Q8,8. Residing Province:,Eastern,11.0,5.472636815920398
+Q8,8. Residing Province:,North Central,9.0,4.477611940298507
+Q8,8. Residing Province:,Central,6.0,2.9850746268656714
+Q8,8. Residing Province:,Sabaragamuwa,5.0,2.4875621890547266
+Q8,8. Residing Province:,Southern,4.0,1.9900497512437811
+Q8,8. Residing Province:,Uva,4.0,1.9900497512437811
+Q8,8. Residing Province:,Northern,1.0,0.4975124378109453
+Q9,9. Marital Status,Single,131.0,65.17412935323384
+Q9,9. Marital Status,Married,70.0,34.82587064676617
+Q10,10. Do you have children?,Missing/No Response,131.0,65.17412935323384
+Q10,10. Do you have children?,"Yes, more than one child",31.0,15.422885572139302
+Q10,10. Do you have children?,"Yes, only one child",20.0,9.950248756218906
+Q10,10. Do you have children?,No children,19.0,9.45273631840796
+Q11,11. Do you have a family history of an inherited blood disorder?,No,137.0,68.1592039800995
+Q11,11. Do you have a family history of an inherited blood disorder?,Yes,39.0,19.402985074626866
+Q11,11. Do you have a family history of an inherited blood disorder?,I don’t know,22.0,10.945273631840797
+Q11,11. Do you have a family history of an inherited blood disorder?,Missing/No Response,3.0,1.4925373134328357
+Q12,"12. If yes, please specify",Missing/No Response,164.0,81.59203980099502
+Q12,"12. If yes, please specify",Thalassemia,13.0,6.467661691542288
+Q12,"12. If yes, please specify",Thalassemia trait,7.0,3.482587064676617
+Q12,"12. If yes, please specify",Anemia,2.0,0.9950248756218906
+Q12,"12. If yes, please specify",Family relative has thal major,1.0,0.4975124378109453
+Q12,"12. If yes, please specify",Father had polycythemia,1.0,0.4975124378109453
+Q12,"12. If yes, please specify",Had thal carrier history,1.0,0.4975124378109453
+Q12,"12. If yes, please specify",In,1.0,0.4975124378109453
+Q12,"12. If yes, please specify",Lukemia,1.0,0.4975124378109453
+Q12,"12. If yes, please specify",Mother and grand mother have low hemoglobin levels,1.0,0.4975124378109453
+Q12,"12. If yes, please specify",One cousin with Thalassemia major,1.0,0.4975124378109453
+Q12,"12. If yes, please specify",Thal minor father,1.0,0.4975124378109453
+Q12,"12. If yes, please specify",Thalasemia,1.0,0.4975124378109453
+Q12,"12. If yes, please specify",Thalassemia Relatives,1.0,0.4975124378109453
+Q12,"12. If yes, please specify",Thalassemia carrier,1.0,0.4975124378109453
+Q12,"12. If yes, please specify",Thalesaemia,1.0,0.4975124378109453
+Q12,"12. If yes, please specify",Thallasemia trait,1.0,0.4975124378109453
+Q12,"12. If yes, please specify",Thaltrait uncle,1.0,0.4975124378109453
+Q12,"12. If yes, please specify",father had thal trait,1.0,0.4975124378109453
+Q13,Diagnosis_Year,Missing/No Response,80.0,39.800995024875625
+Q13,Diagnosis_Year,2023,40.0,19.900497512437813
+Q13,Diagnosis_Year,2019,27.0,13.432835820895523
+Q13,Diagnosis_Year,2022,15.0,7.462686567164178
+Q13,Diagnosis_Year,2024,14.0,6.965174129353234
+Q13,Diagnosis_Year,2020,13.0,6.467661691542288
+Q13,Diagnosis_Year,2025,4.0,1.9900497512437811
+Q13,Diagnosis_Year,2021,3.0,1.4925373134328357
+Q13,Diagnosis_Year,2018,2.0,0.9950248756218906
+Q13,Diagnosis_Year,2013,1.0,0.4975124378109453
+Q13,Diagnosis_Year,2016,1.0,0.4975124378109453
+Q13,Diagnosis_Year,2017,1.0,0.4975124378109453
+Q14,14. Where were you diagnosed as a thalassemia carrier?,During school/university,98.0,48.756218905472636
+Q14,14. Where were you diagnosed as a thalassemia carrier?,During community screening,46.0,22.885572139303484
+Q14,14. Where were you diagnosed as a thalassemia carrier?,At workplace,40.0,19.900497512437813
+Q14,14. Where were you diagnosed as a thalassemia carrier?,Individual or family screening after a relative was diagnosed,9.0,4.477611940298507
+Q14,14. Where were you diagnosed as a thalassemia carrier?,Referral by a doctor,7.0,3.482587064676617
+Q14,14. Where were you diagnosed as a thalassemia carrier?,Missing/No Response,1.0,0.4975124378109453

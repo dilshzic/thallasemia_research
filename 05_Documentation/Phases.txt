@@ -1,0 +1,52 @@
+Phase 1
+    - Raw scoring
+
+Phase 2
+    - Weighted scoring
+
+Phase 3
+    - Positive Negative sdoring
+
+Phase 4
+
+
+Full
+    - Descriptive Statistics
+    - Infernetial Statistics
+
+
+Knowldge score
+Attitude score
+    1. Partner Selection
+    2. Cascade Screening
+
+
+Inferential Statistics
+    1. T-Tests
+        a. Based on Demographics
+        b. Based on Knowledge score
+        c. Based on Atttude scores
+    2. Chi-square Test
+        a. Gender vs Knowledge
+        b. Gender vs attitude on Partner Selection
+        c. Gender vs attitude on Cascade Screening 
+
+        A. Demographics based,
+            1. Demographics vs Knowledge
+            2. Demographics vs Attitudes
+            3. Demographics vs Practices
+            
+    
+        C. Knowledge vs Attitude
+            1. Knowledge vs attitude on Partner Selection
+            2. Knowledge vs attitude on Cascade Screening 
+
+        D. Knowedge vs Practices
+            1. Knowedge vs Practices on Cascade Screening
+            2. Knowedge vs Practices on Partner Selection
+
+        E. Attitude vs Practices
+            1. Attitude on Cascade Screening vs Practices on Cascade Screening
+            2. Attitude on Partner Selection vs Practices on Cascade Screening
+
+

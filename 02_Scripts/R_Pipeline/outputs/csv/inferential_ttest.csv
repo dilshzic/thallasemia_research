@@ -1,0 +1,2 @@
+"Test","t_statistic","df","p_value","Mean_Female","Mean_Male","Significant"
+"Welch t-test: Gender vs Expanded Knowledge Score",1.1741265754369,195.3668182183,0.24177358428334,9.51304347826087,8.87058823529412,"No"

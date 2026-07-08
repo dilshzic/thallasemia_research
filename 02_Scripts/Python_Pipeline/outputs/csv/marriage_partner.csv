@@ -1,0 +1,50 @@
+Question_ID,Question,Response,Frequency,Percentage
+Q30,30. Are you willing to / Do you have a consanguineous marriage?,Definitely not,160,79.60199004975125
+Q30,30. Are you willing to / Do you have a consanguineous marriage?,Not sure,35,17.412935323383085
+Q30,30. Are you willing to / Do you have a consanguineous marriage?,Yes I am willing,3,1.4925373134328357
+Q30,30. Are you willing to / Do you have a consanguineous marriage?,Yes I have,2,0.9950248756218906
+Q30,30. Are you willing to / Do you have a consanguineous marriage?,Missing/No Response,1,0.4975124378109453
+Q31,31. Do you accept marriage between two thalassemia carriers?,No,155,77.11442786069652
+Q31,31. Do you accept marriage between two thalassemia carriers?,Not sure,33,16.417910447761194
+Q31,31. Do you accept marriage between two thalassemia carriers?,Yes,10,4.975124378109453
+Q31,31. Do you accept marriage between two thalassemia carriers?,Missing/No Response,3,1.4925373134328357
+Q32,32. How important is thalassemia screening before marriage?,Very important,135,67.16417910447761
+Q32,32. How important is thalassemia screening before marriage?,Important,47,23.383084577114428
+Q32,32. How important is thalassemia screening before marriage?,Not sure,13,6.467661691542288
+Q32,32. How important is thalassemia screening before marriage?,Not important,4,1.9900497512437811
+Q32,32. How important is thalassemia screening before marriage?,Missing/No Response,2,0.9950248756218906
+Q33,33. What was your practice of partner screening?,Missing/No Response,76,37.81094527363184
+Q33,33. What was your practice of partner screening?,Other,42,20.8955223880597
+Q33,33. What was your practice of partner screening?,Partner was screened after marriage,33,16.417910447761194
+Q33,33. What was your practice of partner screening?,Did not screen partner,26,12.935323383084576
+Q33,33. What was your practice of partner screening?,Partner was screened before marriage,21,10.44776119402985
+Q33,33. What was your practice of partner screening?,Did not disclose thalassemia carrier state to partner,2,0.9950248756218906
+Q33,33. What was your practice of partner screening?,Partner was screened during pregnancy,1,0.4975124378109453
+Q33_Other,If other please specify,Missing/No Response,160,79.60199004975125
+Q33_Other,If other please specify,Still not married. Will be screen before marriage,31,15.422885572139302
+Q33_Other,If other please specify,No partner yet,4,1.9900497512437811
+Q33_Other,If other please specify,I am not married,1,0.4975124378109453
+Q33_Other,If other please specify,I'm not married,1,0.4975124378109453
+Q33_Other,If other please specify,Still don't have a partner,1,0.4975124378109453
+Q33_Other,If other please specify,Still not married,1,0.4975124378109453
+Q33_Other,If other please specify,Still not married will check,1,0.4975124378109453
+Q33_Other,If other please specify,Will screen,1,0.4975124378109453
+Q34,"34. If you did not disclose your carrier status to your partner before marriage, what was the reason?",Missing/No Response,134,66.66666666666666
+Q34,"34. If you did not disclose your carrier status to your partner before marriage, what was the reason?",Other,46,22.885572139303484
+Q34,"34. If you did not disclose your carrier status to your partner before marriage, what was the reason?",Did not think it was necessary,9,4.477611940298507
+Q34,"34. If you did not disclose your carrier status to your partner before marriage, what was the reason?",Lack of understanding about its importance,7,3.482587064676617
+Q34,"34. If you did not disclose your carrier status to your partner before marriage, what was the reason?",Fear of rejection,3,1.4925373134328357
+Q34,"34. If you did not disclose your carrier status to your partner before marriage, what was the reason?",Concern about causing worry or stress,1,0.4975124378109453
+Q34,"34. If you did not disclose your carrier status to your partner before marriage, what was the reason?",Cultural or family pressure,1,0.4975124378109453
+Q34_Other,If other please specify .1,Missing/No Response,157,78.1094527363184
+Q34_Other,If other please specify .1,Still not married. Will be screen before marriage,31,15.422885572139302
+Q34_Other,If other please specify .1,As above,2,0.9950248756218906
+Q34_Other,If other please specify .1,Partner was screened after marriage,2,0.9950248756218906
+Q34_Other,If other please specify .1,Screened after marriage,2,0.9950248756218906
+Q34_Other,If other please specify .1,Busy with work,1,0.4975124378109453
+Q34_Other,If other please specify .1,Did screening after marriage,1,0.4975124378109453
+Q34_Other,If other please specify .1,Don't know before the marriage,1,0.4975124378109453
+Q34_Other,If other please specify .1,I am not married,1,0.4975124378109453
+Q34_Other,If other please specify .1,I don't know about i'm a carrier before marriage and,1,0.4975124378109453
+Q34_Other,If other please specify .1,No partner yet,1,0.4975124378109453
+Q34_Other,If other please specify .1,Still not married,1,0.4975124378109453
