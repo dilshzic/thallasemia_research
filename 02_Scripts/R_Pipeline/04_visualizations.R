@@ -36,6 +36,7 @@ p1 <- ggplot2::ggplot(df, ggplot2::aes(x = as.numeric(.data[[age_col]]))) +
   )
 
 ggplot2::ggsave(file.path(plot_dir, "age_distribution.png"), plot = p1, width = 7, height = 5, dpi = 300)
+print(p1)
 
 
 # --- 2. Gender Distribution Bar Plot ---
@@ -63,6 +64,7 @@ p2 <- ggplot2::ggplot(gender_df, ggplot2::aes(x = Gender, y = Count, fill = Gend
   )
 
 ggplot2::ggsave(file.path(plot_dir, "gender_distribution.png"), plot = p2, width = 6, height = 5, dpi = 300)
+print(p2)
 
 
 # --- 3. Knowledge Score Distribution Plot ---
@@ -87,6 +89,7 @@ p3 <- ggplot2::ggplot(df, ggplot2::aes(x = Expanded_Knowledge_Score)) +
   )
 
 ggplot2::ggsave(file.path(plot_dir, "knowledge_score_distribution.png"), plot = p3, width = 7, height = 5, dpi = 300)
+print(p3)
 
 
 # --- 4. Relative/Cascade Screening Rates Plot ---
@@ -126,5 +129,6 @@ p4 <- ggplot2::ggplot(rel_data, ggplot2::aes(x = Relationship, y = Count, fill =
   )
 
 ggplot2::ggsave(file.path(plot_dir, "relative_screening_rates.png"), plot = p4, width = 8, height = 5, dpi = 300)
+print(p4)
 
 cat("Stage 4 completed. All plots saved as high-res PNGs under '", plot_dir, "'.\n\n", sep = "")
