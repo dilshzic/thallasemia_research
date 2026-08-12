@@ -49,7 +49,7 @@ else:
     print("All required packages are already installed.\n")
 
 # --- 2. Environment Configurations ---
-xlsx_path = "/home/dilshan/Desktop/Thallasemia research/Thalassemia_Research.xlsx"
+xlsx_path = "/home/dilshan/Desktop/Thallasemia research/01_Data/Raw_Data/Thalassemia_Research.xlsx"
 
 # Relative fallback
 if not os.path.exists(xlsx_path):

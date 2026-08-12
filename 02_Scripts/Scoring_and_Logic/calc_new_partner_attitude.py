@@ -16,8 +16,8 @@ os.makedirs(charts_dir, exist_ok=True)
 q28_cols = [c for c in df.columns if c.startswith('28.') and '/' in c]
 q28_scores = {
     'Get the partner tested before marriage': 1,
-    'Get family members tested': 0,
-    'Ignore it': -1,
+    'Get family members tested': 1,
+    'Ignore it': -2,
     'I don’t know': 0
 }
 

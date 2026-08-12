@@ -42,7 +42,7 @@ cat("  SD Score:   ", round(sd_basic, 4), "\n\n")
 q15_correct <- "Yes"
 q17_correct <- "Thalassemia major (severe form)"
 q19_correct <- "Yes"
-q20_correct <- "Very difficult (e.g., bone marrow transplant)"
+q20_correct <- c("Very difficult (e.g., bone marrow transplant)", "Cannot be cured")
 q21_correct <- "Can be prevented"
 q22_correct <- "From generation to generation (hereditary)"
 q23_correct <- "Healthy"
@@ -72,7 +72,7 @@ expanded_scores <- expanded_scores + as.numeric(df[[q19_col]] == q19_correct & !
 
 # Add Q20 score (1 point)
 q20_col <- "20. Can thalassemia major be cured?"
-expanded_scores <- expanded_scores + as.numeric(df[[q20_col]] == q20_correct & !is.na(df[[q20_col]]))
+expanded_scores <- expanded_scores + as.numeric(df[[q20_col]] %in% q20_correct & !is.na(df[[q20_col]]))
 
 # Add Q21 score (1 point)
 q21_col <- "21. Can the spread of thalassemia be prevented?"
@@ -112,6 +112,7 @@ cat("  SD Score:   ", round(sd_exp, 4), "\n\n")
 
 # --- Compute (1-p) Difficulty-Weighted Knowledge Score ---
 # Each item is weighted by (1 - proportion_correct), so hard questions
+if (FALSE) {
 # (answered correctly by fewer participants) receive more weight.
 cat("Computing (1-p) Difficulty-Weighted Knowledge Scores...\n")
 
@@ -120,7 +121,7 @@ item_matrix <- data.frame(
   Q15 = as.numeric(df[[q15_col]] == q15_correct & !is.na(df[[q15_col]])),
   Q17 = as.numeric(df[[q17_col]] == q17_correct & !is.na(df[[q17_col]])),
   Q19 = as.numeric(df[[q19_col]] == q19_correct & !is.na(df[[q19_col]])),
-  Q20 = as.numeric(df[[q20_col]] == q20_correct & !is.na(df[[q20_col]])),
+  Q20 = as.numeric(df[[q20_col]] %in% q20_correct & !is.na(df[[q20_col]])),
   Q21 = as.numeric(df[[q21_col]] == q21_correct & !is.na(df[[q21_col]])),
   Q22 = as.numeric(df[[q22_col]] == q22_correct & !is.na(df[[q22_col]])),
   Q23 = as.numeric(df[[q23_col]] == q23_correct & !is.na(df[[q23_col]])),
@@ -185,7 +186,103 @@ r_spearman <- cor(df$Expanded_Knowledge_Score, df$DiffW_Knowledge_Score, method 
 cat("  Correlation with Raw Score:\n")
 cat("    Pearson:  r =", round(r_pearson, 4), "\n")
 cat("    Spearman: ρ =", round(r_spearman, 4), "\n\n")
+}
 
+# --- Compute Attitude & Practice Scores ---
+cat("Computing Attitude and Practice Scores...\n")
+
+# Partner Attitude Score
+q28_cols <- grep("^28\\. What should a thalassemia carrier do after diagnosis\\? \\(Tick all that apply\\)/", colnames(df), value = TRUE)
+q30_col <- grep("^30\\.", colnames(df), value = TRUE)[1]
+q31_col <- grep("^31\\.", colnames(df), value = TRUE)[1]
+q32_col <- grep("^32\\.", colnames(df), value = TRUE)[1]
+q34_col <- grep("^34\\.", colnames(df), value = TRUE)[1]
+
+df$Partner_Attitude <- 0
+# Q28
+for (col in q28_cols) {
+  opt <- tolower(stringr::str_split(col, "/", simplify=TRUE)[,2])
+  if (length(opt) == 0) next
+  val <- df[[col]]
+  val[is.na(val)] <- 0
+  if (grepl("get the partner tested", opt)) df$Partner_Attitude <- df$Partner_Attitude + ifelse(val == 1, 1, 0)
+  if (grepl("get family members tested", opt)) df$Partner_Attitude <- df$Partner_Attitude + ifelse(val == 1, 1, 0)
+  if (grepl("ignore it", opt)) df$Partner_Attitude <- df$Partner_Attitude + ifelse(val == 1, -2, 0)
+}
+# Q30
+df$Partner_Attitude <- df$Partner_Attitude + dplyr::case_when(
+  grepl("definitely not", tolower(df[[q30_col]])) ~ 1,
+  grepl("not sure", tolower(df[[q30_col]])) ~ -1,
+  grepl("yes i am willing|yes i have", tolower(df[[q30_col]])) ~ -2,
+  TRUE ~ 0
+)
+# Q31
+df$Partner_Attitude <- df$Partner_Attitude + dplyr::case_when(
+  grepl("^no$", tolower(df[[q31_col]])) ~ 1,
+  grepl("yes", tolower(df[[q31_col]])) ~ -1,
+  TRUE ~ 0
+)
+# Q32
+df$Partner_Attitude <- df$Partner_Attitude + dplyr::case_when(
+  grepl("very important", tolower(df[[q32_col]])) ~ 2,
+  grepl("^important", tolower(df[[q32_col]])) ~ 1,
+  grepl("not important", tolower(df[[q32_col]])) ~ -1,
+  TRUE ~ 0
+)
+# Q34
+df$Partner_Attitude <- df$Partner_Attitude + dplyr::case_when(
+  grepl("lack of understanding|did not think it was necessary|concern about causing worry", tolower(df[[q34_col]])) ~ -1,
+  TRUE ~ 0
+)
+
+# Cascade Attitude Score
+q35_col <- grep("^35\\.", colnames(df), value = TRUE)[1]
+q36_col <- grep("^36\\.", colnames(df), value = TRUE)[1]
+q40_col <- grep("^40\\.", colnames(df), value = TRUE)[1]
+
+df$Cascade_Attitude <- 0
+df$Cascade_Attitude <- df$Cascade_Attitude + dplyr::case_when(
+  grepl("agree", tolower(df[[q35_col]])) & !grepl("disagree", tolower(df[[q35_col]])) ~ 1,
+  grepl("disagree", tolower(df[[q35_col]])) ~ -1,
+  TRUE ~ 0
+)
+df$Cascade_Attitude <- df$Cascade_Attitude + dplyr::case_when(
+  grepl("^yes$", tolower(df[[q36_col]])) ~ 1,
+  grepl("^no$", tolower(df[[q36_col]])) ~ -1,
+  TRUE ~ 0
+)
+df$Cascade_Attitude <- df$Cascade_Attitude + dplyr::case_when(
+  grepl("very important", tolower(df[[q40_col]])) ~ 2,
+  grepl("^important", tolower(df[[q40_col]])) ~ 1,
+  grepl("not important", tolower(df[[q40_col]])) ~ -1,
+  TRUE ~ 0
+)
+
+# Partner Practice
+q33_col <- grep("^33\\.", colnames(df), value = TRUE)[1]
+map_partner_practice <- function(x) {
+  v <- tolower(as.character(x))
+  if (grepl("before marriage", v)) return("Safe")
+  if (grepl("after marriage|pregnancy", v)) return("Delayed")
+  if (grepl("did not screen|did not disclose", v)) return("Unsafe")
+  return(NA_character_)
+}
+df$Partner_Practice_Raw <- sapply(df[[q33_col]], map_partner_practice)
+
+# Cascade Practice
+col_1st <- grep("first-degree", colnames(df), ignore.case=TRUE, value=TRUE)[1]
+col_2nd <- grep("second-degree", colnames(df), ignore.case=TRUE, value=TRUE)[1]
+col_3rd <- grep("third-degree", colnames(df), ignore.case=TRUE, value=TRUE)[1]
+
+score_relative <- function(x) {
+  v <- tolower(as.character(x))
+  ifelse(grepl("all", v), 2, ifelse(grepl("some", v), 1, 0))
+}
+df$Cascade_Practice_Score <- as.numeric(sapply(df[[col_1st]], score_relative)) +
+                             as.numeric(sapply(df[[col_2nd]], score_relative)) +
+                             as.numeric(sapply(df[[col_3rd]], score_relative))
+
+cat("Attitude and Practice Scores computed successfully.\n\n")
 
 # --- Verification ---
 cat("Verification metrics:\n")
@@ -193,8 +290,8 @@ cat("  Mean of Basic Z-Scores:   ", round(mean(df$Knowledge_Score_Z_Score), 6), 
 cat("  SD of Basic Z-Scores:     ", round(sd(df$Knowledge_Score_Z_Score), 6), "\n")
 cat("  Mean of Expanded Z-Scores:", round(mean(df$Expanded_Knowledge_Score_Z_Score), 6), "\n")
 cat("  SD of Expanded Z-Scores:  ", round(sd(df$Expanded_Knowledge_Score_Z_Score), 6), "\n")
-cat("  Mean of DiffW Z-Scores:   ", round(mean(df$DiffW_Knowledge_Score_Z_Score), 6), "\n")
-cat("  SD of DiffW Z-Scores:     ", round(sd(df$DiffW_Knowledge_Score_Z_Score), 6), "\n")
+# cat("  Mean of DiffW Z-Scores:   ", round(mean(df$DiffW_Knowledge_Score_Z_Score), 6), "\n")
+# cat("  SD of DiffW Z-Scores:     ", round(sd(df$DiffW_Knowledge_Score_Z_Score), 6), "\n")
 
 cat("Stage 2 completed. Scores added to 'df'.\n\n")
 

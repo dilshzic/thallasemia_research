@@ -1,7 +1,7 @@
 28. What should a thalassemia carrier do after diagnosis? (Tick all that apply)
     Get the partner tested before marriage +1
-    Get family members tested 0
-    Ignore it -1
+    Get family members tested +1
+    Ignore it -2
     I don't know 0
 
 30. Are you willing to / Do you have a consanguineous marriage?

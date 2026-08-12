@@ -70,7 +70,7 @@ def calculate_scores(df):
     
     # Q20
     q20_col = "20. Can thalassemia major be cured?"
-    expanded_scores += df[q20_col].astype(str).str.contains("bone marrow transplant").astype(float)
+    expanded_scores += df[q20_col].astype(str).str.contains("bone marrow transplant|Cannot be cured").astype(float)
     
     # Q21
     q21_col = "21. Can the spread of thalassemia be prevented?"
@@ -113,73 +113,90 @@ def calculate_scores(df):
     
     
     # --- 3. Compute (1-p) Difficulty-Weighted Knowledge Score ---
-    # Each item is weighted by (1 - proportion_correct), so hard questions
-    # (answered correctly by fewer participants) receive more weight.
-    print("Computing (1-p) Difficulty-Weighted Knowledge Scores...")
+    if False:
+        pass
+        
+    print("\nComputing Attitude and Practice Scores...")
+    # Partner Attitude
+    q28_cols = [c for c in df.columns if c.startswith('28.') and '/' in c]
+    q30_col = [c for c in df.columns if c.startswith('30.')][0]
+    q31_col = [c for c in df.columns if c.startswith('31.')][0]
+    q32_col = [c for c in df.columns if c.startswith('32.')][0]
+    q34_col = [c for c in df.columns if c.startswith('34.')][0]
+
+    def get_q28_score(row):
+        s = 0
+        for col in q28_cols:
+            if row[col] == 1.0:
+                opt = col.split('/', 1)[1].strip().lower()
+                if 'get the partner tested' in opt or 'get family members tested' in opt: s += 1
+                if 'ignore it' in opt: s -= 2
+        return s
     
-    # Reconstruct all individual binary item columns
-    items = {}
-    items['Q15'] = (df[q15_col] == q15_correct).astype(float)
+    def get_partner_attitude(row):
+        s = get_q28_score(row)
+        # Q30
+        v30 = str(row[q30_col]).lower()
+        if 'definitely not' in v30: s += 1
+        elif 'not sure' in v30: s -= 1
+        elif 'yes i am willing' in v30 or 'yes i have' in v30: s -= 2
+        # Q31
+        v31 = str(row[q31_col]).lower().strip()
+        if v31 == 'no': s += 1
+        elif 'yes' in v31: s -= 1
+        # Q32
+        v32 = str(row[q32_col]).lower()
+        if 'very important' in v32: s += 2
+        elif v32.startswith('important'): s += 1
+        elif 'not important' in v32: s -= 1
+        # Q34
+        v34 = str(row[q34_col]).lower()
+        if 'lack of understanding' in v34 or 'did not think it was necessary' in v34 or 'concern about causing worry' in v34: s -= 1
+        return s
+
+    df['Partner_Attitude'] = df.apply(get_partner_attitude, axis=1)
+
+    # Cascade Attitude
+    q35_col = [c for c in df.columns if c.startswith('35.')][0]
+    q36_col = [c for c in df.columns if c.startswith('36.')][0]
+    q40_col = [c for c in df.columns if c.startswith('40.')][0]
     
-    for i, col in enumerate(q16_cols):
-        items[f'Q16_{i+1}'] = pd.to_numeric(df[col], errors='coerce').fillna(0)
-    
-    items['Q17'] = df[q17_col].astype(str).str.contains("Thalassemia major").astype(float)
-    items['Q19'] = (df[q19_col] == q19_correct).astype(float)
-    items['Q20'] = df[q20_col].astype(str).str.contains("bone marrow transplant").astype(float)
-    items['Q21'] = df[q21_col].astype(str).str.contains("Can be prevented").astype(float)
-    items['Q22'] = df[q22_col].astype(str).str.contains("generation to generation").astype(float)
-    items['Q23'] = (df[q23_col] == q23_correct).astype(float)
-    items['Q24'] = df[q24_col].astype(str).str.contains("chance").astype(float)
-    items['Q26'] = df[q26_col].astype(str).str.contains("40").astype(float)
-    
-    for i, col in enumerate(q27_cols):
-        items[f'Q27_{i+1}'] = pd.to_numeric(df[col], errors='coerce').fillna(0)
-    
-    item_df = pd.DataFrame(items)
-    n_items = len(item_df.columns)
-    print(f"  Total binary knowledge items: {n_items}")
-    
-    # Compute (1-p) weights for each item
-    item_proportions = item_df.mean()
-    item_weights = 1 - item_proportions
-    
-    print("\n  Item Difficulty Weights:")
-    print(f"  {'Item':<15} {'% Correct':>10} {'Difficulty':>12} {'Weight':>10}")
-    print(f"  {'-'*50}")
-    for col_name in item_df.columns:
-        pct = item_proportions[col_name] * 100
-        difficulty = "EASY" if pct > 60 else ("MEDIUM" if pct > 30 else "HARD")
-        print(f"  {col_name:<15} {pct:>9.1f}%   {difficulty:<10} {item_weights[col_name]:>8.4f}")
-    
-    max_possible = item_weights.sum()
-    print(f"\n  Max possible weighted score: {max_possible:.4f}")
-    
-    # Compute difficulty-weighted score: sum of (item_value * weight)
-    weights_array = np.array([item_weights[c] for c in item_df.columns])
-    df['DiffW_Knowledge_Score'] = item_df.values @ weights_array
-    
-    # Compute Z-score for difficulty-weighted score
-    mean_dw = df['DiffW_Knowledge_Score'].mean()
-    sd_dw = df['DiffW_Knowledge_Score'].std(ddof=1)
-    
-    if sd_dw > 0:
-        df['DiffW_Knowledge_Score_Z_Score'] = (df['DiffW_Knowledge_Score'] - mean_dw) / sd_dw
-    else:
-        df['DiffW_Knowledge_Score_Z_Score'] = 0.0
-    
-    print(f"\nDifficulty-Weighted Knowledge Scores summary:")
-    print(f"  Mean Score: {mean_dw:.4f}")
-    print(f"  SD Score:   {sd_dw:.4f}")
-    print(f"  Median:     {df['DiffW_Knowledge_Score'].median():.4f}")
-    print(f"  Min:        {df['DiffW_Knowledge_Score'].min():.4f}")
-    print(f"  Max:        {df['DiffW_Knowledge_Score'].max():.4f}")
-    
-    # Correlation between raw and difficulty-weighted scores
-    r_pearson = np.corrcoef(df['Expanded_Knowledge_Score'], df['DiffW_Knowledge_Score'])[0, 1]
-    print(f"  Correlation with Raw Score:")
-    print(f"    Pearson:  r = {r_pearson:.4f}\n")
-    
+    def get_cascade_attitude(row):
+        s = 0
+        v35 = str(row[q35_col]).lower()
+        if 'agree' in v35 and 'disagree' not in v35: s += 1
+        elif 'disagree' in v35: s -= 1
+        v36 = str(row[q36_col]).lower().strip()
+        if v36 == 'yes': s += 1
+        elif v36 == 'no': s -= 1
+        v40 = str(row[q40_col]).lower()
+        if 'very important' in v40: s += 2
+        elif v40.startswith('important'): s += 1
+        elif 'not important' in v40: s -= 1
+        return s
+
+    df['Cascade_Attitude'] = df.apply(get_cascade_attitude, axis=1)
+
+    # Practices
+    q33_col = [c for c in df.columns if c.startswith('33.')][0]
+    def map_partner_practice(v):
+        v = str(v).lower()
+        if 'before marriage' in v: return 'Safe'
+        if 'after marriage' in v or 'pregnancy' in v: return 'Delayed'
+        if 'did not screen' in v or 'did not disclose' in v: return 'Unsafe'
+        return np.nan
+    df['Partner_Practice_Raw'] = df[q33_col].apply(map_partner_practice)
+
+    col_1st = [c for c in df.columns if 'first-degree' in c.lower()][0]
+    col_2nd = [c for c in df.columns if 'second-degree' in c.lower()][0]
+    col_3rd = [c for c in df.columns if 'third-degree' in c.lower()][0]
+    def score_rel(v):
+        v = str(v).lower()
+        if 'all' in v: return 2
+        if 'some' in v: return 1
+        return 0
+    df['Cascade_Practice_Score'] = df[col_1st].apply(score_rel) + df[col_2nd].apply(score_rel) + df[col_3rd].apply(score_rel)
+    print("Scores computed successfully.")
     
     # Verification checks
     print("Verification metrics:")
@@ -187,8 +204,8 @@ def calculate_scores(df):
     print(f"  SD of Basic Z-Scores:      {df['Knowledge_Score_Z_Score'].std(ddof=1):.6f}")
     print(f"  Mean of Expanded Z-Scores: {df['Expanded_Knowledge_Score_Z_Score'].mean():.6f}")
     print(f"  SD of Expanded Z-Scores:   {df['Expanded_Knowledge_Score_Z_Score'].std(ddof=1):.6f}")
-    print(f"  Mean of DiffW Z-Scores:    {df['DiffW_Knowledge_Score_Z_Score'].mean():.6f}")
-    print(f"  SD of DiffW Z-Scores:      {df['DiffW_Knowledge_Score_Z_Score'].std(ddof=1):.6f}")
+    # print(f"  Mean of DiffW Z-Scores:    {df['DiffW_Knowledge_Score_Z_Score'].mean():.6f}")
+    # print(f"  SD of DiffW Z-Scores:      {df['DiffW_Knowledge_Score_Z_Score'].std(ddof=1):.6f}")
     
     return df
 

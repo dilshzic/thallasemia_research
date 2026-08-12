@@ -13,168 +13,198 @@ if (!exists("csv_dir")) {
   csv_dir <- "./outputs/csv"
 }
 
-# --- 1. Chi-Square: Education vs. Knowledge Level ---
-cat("\nRunning Chi-Square Test: Education Level vs. Knowledge Level...\n")
-edu_col <- find_col(df, "^7\\. Education Level")
-median_exp_score <- median(df$Expanded_Knowledge_Score, na.rm = TRUE)
-df$Knowledge_Level <- ifelse(df$Expanded_Knowledge_Score > median_exp_score, "High", "Low")
+# ------------------------------------------------------------------------------
+# Data Preparation: Binarize Demographics & Scores
+# ------------------------------------------------------------------------------
 
-# Exclude Missing/No Response
-sub_edu <- df %>% 
-  dplyr::filter(!is.na(.data[[edu_col]]) & .data[[edu_col]] != "Missing/No Response")
+# Helper function to find column names safely
+find_col <- function(df, pattern) {
+  col <- grep(pattern, colnames(df), value = TRUE)
+  if (length(col) == 0) return(NA)
+  return(col[1])
+}
 
-edu_table <- table(sub_edu[[edu_col]], sub_edu$Knowledge_Level)
-print(edu_table)
-
-chi_edu <- chisq.test(edu_table)
-print(chi_edu)
-
-# Save results to df
-chi_edu_df <- data.frame(
-  Test = "Chi-Square: Education vs Knowledge Level",
-  Statistic = chi_edu$statistic,
-  df = chi_edu$parameter,
-  p_value = chi_edu$p.value,
-  Significant = ifelse(chi_edu$p.value < 0.05, "Yes", "No")
-)
-
-
-# --- 2. Chi-Square: Family History vs. Family Disclosure ---
-cat("\nRunning Chi-Square Test: Family History vs. Family Disclosure...\n")
-hist_col <- find_col(df, "^11\\. Do you have a family history")
-disc_col <- find_col(df, "^36\\. Do your family members")
-
-sub_hist <- df %>%
-  dplyr::filter(.data[[hist_col]] %in% c("Yes", "No") & .data[[disc_col]] %in% c("Yes", "No"))
-
-hist_table <- table(sub_hist[[hist_col]], sub_hist[[disc_col]])
-print(hist_table)
-
-chi_hist <- chisq.test(hist_table, correct = TRUE) # Yates continuity correction
-print(chi_hist)
-
-chi_hist_df <- data.frame(
-  Test = "Chi-Square: Family History vs Family Disclosure",
-  Statistic = chi_hist$statistic,
-  df = chi_hist$parameter,
-  p_value = chi_hist$p.value,
-  Significant = ifelse(chi_hist$p.value < 0.05, "Yes", "No")
-)
-
-
-# --- 3. Chi-Square: Marital Status vs. Partner Screening ---
-cat("\nRunning Chi-Square Test: Marital Status vs. Partner Screening...\n")
-status_col <- find_col(df, "^9\\. Marital Status")
-practice_col <- find_col(df, "^33\\. What was your practice")
-
-screened_categories <- c("Partner was screened before marriage", "Partner was screened after marriage", "Partner was screened during pregnancy")
-unscreened_categories <- c("Did not screen partner", "Did not disclose thalassemia carrier state to partner")
-
-df$Partner_Screened_Recoded <- NA_character_
-df$Partner_Screened_Recoded[df[[practice_col]] %in% screened_categories] <- "Screened"
-df$Partner_Screened_Recoded[df[[practice_col]] %in% unscreened_categories] <- "Unscreened"
-
-sub_marital <- df %>%
-  dplyr::filter(.data[[status_col]] %in% c("Single", "Married") & !is.na(Partner_Screened_Recoded))
-
-marital_table <- table(sub_marital[[status_col]], sub_marital$Partner_Screened_Recoded)
-print(marital_table)
-
-chi_mar <- chisq.test(marital_table, correct = TRUE)
-print(chi_mar)
-
-chi_mar_df <- data.frame(
-  Test = "Chi-Square: Marital Status vs Partner Screening Practice",
-  Statistic = chi_mar$statistic,
-  df = chi_mar$parameter,
-  p_value = chi_mar$p.value,
-  Significant = ifelse(chi_mar$p.value < 0.05, "Yes", "No")
-)
-
-# Combine and save all Chi-Squares
-chisq_all <- rbind(chi_edu_df, chi_hist_df, chi_mar_df)
-write.csv(chisq_all, file.path(csv_dir, "inferential_chisq.csv"), row.names = FALSE)
-
-
-# --- 4. T-Test: Gender vs. Expanded Knowledge Score ---
-cat("\nRunning Welch's Independent t-test: Gender vs. Knowledge Score...\n")
+# Get columns
 gender_col <- find_col(df, "^2\\. Gender")
-
-sub_gen <- df %>% dplyr::filter(.data[[gender_col]] %in% c("Female", "Male"))
-formula_t <- reformulate(paste0("`", gender_col, "`"), response = "Expanded_Knowledge_Score")
-t_res <- t.test(formula_t, data = sub_gen, var.equal = FALSE)
-print(t_res)
-
-# Save t-test summary
-t_df <- data.frame(
-  Test = "Welch t-test: Gender vs Expanded Knowledge Score",
-  t_statistic = t_res$statistic,
-  df = t_res$parameter,
-  p_value = t_res$p.value,
-  Mean_Female = mean(df$Expanded_Knowledge_Score[df[[gender_col]] == "Female"], na.rm=TRUE),
-  Mean_Male = mean(df$Expanded_Knowledge_Score[df[[gender_col]] == "Male"], na.rm=TRUE),
-  Significant = ifelse(t_res$p.value < 0.05, "Yes", "No")
-)
-write.csv(t_df, file.path(csv_dir, "inferential_ttest.csv"), row.names = FALSE)
-
-
-# --- 5. ANOVA: Education Level vs. Expanded Knowledge Score ---
-cat("\nRunning One-Way ANOVA: Education Level vs. Knowledge Score...\n")
-formula_anova <- reformulate(paste0("`", edu_col, "`"), response = "Expanded_Knowledge_Score")
-anova_res <- aov(formula_anova, data = sub_edu)
-print(summary(anova_res))
-
-# Save ANOVA summary table
-anova_sum <- summary(anova_res)[[1]]
-anova_df <- data.frame(
-  Source = row.names(anova_sum),
-  Df = anova_sum$Df,
-  Sum_Sq = anova_sum$`Sum Sq`,
-  Mean_Sq = anova_sum$`Mean Sq`,
-  F_value = anova_sum$`F value`,
-  Pr_F = anova_sum$`Pr(>F)`
-)
-write.csv(anova_df, file.path(csv_dir, "inferential_anova.csv"), row.names = FALSE)
-
-
-# --- 6. Linear Regression: Predict Expanded Knowledge Score ---
-cat("\nFitting Multiple Linear Regression Model...\n")
-income_col <- find_col(df, "^6\\. Monthly Income")
+marital_col <- find_col(df, "^9\\. Marital Status")
 age_col <- find_col(df, "^1\\. Age")
+prov_col <- find_col(df, "Province")
+edu_col <- find_col(df, "^7\\. Education Level")
+inc_col <- find_col(df, "^6\\. Monthly Income")
 
-# Prepare regression dataframe (remove Missing/No Response categories)
-reg_df <- df %>%
-  dplyr::mutate(
-    Age = as.numeric(.data[[age_col]]),
-    Gender = .data[[gender_col]],
-    Education = .data[[edu_col]],
-    Income = .data[[income_col]]
-  ) %>%
-  dplyr::filter(
-    !is.na(Age) & 
-    Gender %in% c("Female", "Male") &
-    !is.na(Education) & Education != "Missing/No Response" &
-    !is.na(Income) & Income != "Missing/No Response"
-  )
+# --- Binarize Demographics ---
+# Gender (already binary: Female/Male)
+df$B_Gender <- as.character(df[[gender_col]])
 
-# Set baselines matching Python statsmodels analysis
-reg_df$Gender <- factor(reg_df$Gender, levels = c("Female", "Male"))
-reg_df$Education <- factor(reg_df$Education, levels = c("Up to O/L", "Up to A/L", "Undergraduate", "Graduate"))
-reg_df$Income <- factor(reg_df$Income, levels = c("< 25,000", "25,000 – 50,000", "51,000 – 100,000", "> 100,000"))
+# Marital Status (Single vs Married)
+df$B_Marital <- ifelse(grepl("Single|Married", as.character(df[[marital_col]])), as.character(df[[marital_col]]), NA)
 
-lm_res <- lm(Expanded_Knowledge_Score ~ Age + Gender + Education + Income, data = reg_df)
-print(summary(lm_res))
+# Age Group (< 35 vs >= 35)
+df$B_Age <- ifelse(as.numeric(df[[age_col]]) < 35, "<35", ">=35")
 
-# Save regression coefficients table
-lm_sum <- summary(lm_res)$coefficients
-lm_df <- data.frame(
-  Term = row.names(lm_sum),
-  Estimate = lm_sum[, "Estimate"],
-  Std_Error = lm_sum[, "Std. Error"],
-  t_value = lm_sum[, "t value"],
-  p_value = lm_sum[, "Pr(>|t|)"],
-  Significant = ifelse(lm_sum[, "Pr(>|t|)"] < 0.05, "Yes", "No")
+# Province (Western vs North Western)
+df$B_Province <- ifelse(grepl("Western", as.character(df[[prov_col]])) & !grepl("North", as.character(df[[prov_col]])), "Western", 
+                 ifelse(grepl("North Western", as.character(df[[prov_col]])), "North Western", NA))
+
+# Education (Up to A/L vs Degree and Above)
+df$B_Education <- ifelse(grepl("O/L|A/L", as.character(df[[edu_col]])), "Up to A/L", 
+                  ifelse(grepl("Degree|Undergraduate|Graduate", as.character(df[[edu_col]])), "Degree/Above", NA))
+
+# Income (Below Median vs Above Median)
+inc_numeric <- dplyr::case_when(
+  grepl("< 25,000", as.character(df[[inc_col]])) ~ 1,
+  grepl("25,000 – 50,000", as.character(df[[inc_col]])) ~ 2,
+  grepl("51,000 – 100,000", as.character(df[[inc_col]])) ~ 3,
+  grepl("> 100,000", as.character(df[[inc_col]])) ~ 4,
+  TRUE ~ NA_real_
 )
-write.csv(lm_df, file.path(csv_dir, "inferential_regression.csv"), row.names = FALSE)
+med_inc <- median(inc_numeric, na.rm=TRUE)
+df$B_Income <- ifelse(inc_numeric <= med_inc, "Below/Equal Median", "Above Median")
+
+# Partner Practice (Safe vs Unsafe/Delayed)
+df$B_Partner_Practice <- ifelse(df$Partner_Practice_Raw == "Safe", "Safe", 
+                         ifelse(df$Partner_Practice_Raw %in% c("Delayed", "Unsafe"), "Unsafe/Delayed", NA))
+
+# --- Binarize Scores (Median Splits) ---
+med_k <- median(df$Expanded_Knowledge_Score, na.rm=TRUE)
+med_pa <- median(df$Partner_Attitude, na.rm=TRUE)
+med_ca <- median(df$Cascade_Attitude, na.rm=TRUE)
+med_cp <- median(df$Cascade_Practice_Score, na.rm=TRUE)
+
+df$Cat_Knowledge <- ifelse(df$Expanded_Knowledge_Score > med_k, "High", "Low")
+df$Cat_Partner_Att <- ifelse(df$Partner_Attitude > med_pa, "Good", "Poor")
+df$Cat_Cascade_Att <- ifelse(df$Cascade_Attitude > med_ca, "Good", "Poor")
+df$Cat_Cascade_Prac <- ifelse(df$Cascade_Practice_Score > med_cp, "Good", "Poor")
+
+# ------------------------------------------------------------------------------
+# Run T-Tests
+# ------------------------------------------------------------------------------
+cat("\nRunning all T-Tests...\n")
+t_test_results <- list()
+
+run_ttest <- function(indep, dep, label) {
+  sub_df <- df[!is.na(df[[indep]]) & !is.na(df[[dep]]), ]
+  groups <- unique(sub_df[[indep]])
+  if(length(groups) != 2) return(NULL)
+  
+  f <- reformulate(paste0("`", indep, "`"), response = paste0("`", dep, "`"))
+  res <- tryCatch(t.test(f, data = sub_df, var.equal = FALSE), error = function(e) NULL)
+  
+  if(!is.null(res)) {
+    return(data.frame(
+      Test_Label = label,
+      Independent_Variable = indep,
+      Dependent_Variable = dep,
+      t_statistic = res$statistic,
+      df = res$parameter,
+      p_value = res$p.value,
+      Significant = ifelse(res$p.value < 0.05, "Yes", "No")
+    ))
+  }
+  return(NULL)
+}
+
+scores <- c("Expanded_Knowledge_Score", "Partner_Attitude", "Cascade_Attitude", "Cascade_Practice_Score")
+indeps <- c("B_Gender", "B_Marital", "B_Age", "B_Province", "B_Education", "B_Income")
+
+test_idx <- 1
+for(indep in indeps) {
+  for(score in scores) {
+    res <- run_ttest(indep, score, paste("T-Test", test_idx))
+    if(!is.null(res)) t_test_results[[test_idx]] <- res
+    test_idx <- test_idx + 1
+  }
+}
+
+# Cross-KAP T-tests
+cross_tests <- list(
+  c("B_Partner_Practice", "Expanded_Knowledge_Score"),
+  c("B_Partner_Practice", "Partner_Attitude"),
+  c("Cat_Cascade_Prac", "Expanded_Knowledge_Score"),
+  c("Cat_Cascade_Prac", "Cascade_Attitude")
+)
+for(ct in cross_tests) {
+  res <- run_ttest(ct[1], ct[2], paste("T-Test", test_idx))
+  if(!is.null(res)) t_test_results[[test_idx]] <- res
+  test_idx <- test_idx + 1
+}
+
+t_df_all <- do.call(rbind, t_test_results)
+write.csv(t_df_all, file.path(csv_dir, "inferential_ttest.csv"), row.names = FALSE)
+
+
+# ------------------------------------------------------------------------------
+# Run Chi-Square Tests
+# ------------------------------------------------------------------------------
+cat("Running all Chi-Square Tests...\n")
+chisq_results <- list()
+
+run_chisq <- function(var1, var2, label) {
+  sub_df <- df[!is.na(df[[var1]]) & !is.na(df[[var2]]), ]
+  if(nrow(sub_df) == 0) return(NULL)
+  
+  tbl <- table(sub_df[[var1]], sub_df[[var2]])
+  if(nrow(tbl) < 2 | ncol(tbl) < 2) return(NULL)
+  
+  res <- tryCatch(chisq.test(tbl, correct = TRUE), error = function(e) NULL)
+  
+  if(!is.null(res)) {
+    return(data.frame(
+      Test_Label = label,
+      Variable_1 = var1,
+      Variable_2 = var2,
+      Statistic = res$statistic,
+      df = res$parameter,
+      p_value = res$p.value,
+      Significant = ifelse(res$p.value < 0.05, "Yes", "No")
+    ))
+  }
+  return(NULL)
+}
+
+test_idx <- 1
+# 1. Demographics vs Knowledge Cat
+for(indep in indeps) {
+  res <- run_chisq(indep, "Cat_Knowledge", paste("ChiSq", test_idx))
+  if(!is.null(res)) chisq_results[[test_idx]] <- res
+  test_idx <- test_idx + 1
+}
+
+# 2. Demographics vs Attitude Cats
+for(indep in c("B_Gender", "B_Marital", "B_Education")) {
+  res <- run_chisq(indep, "Cat_Partner_Att", paste("ChiSq", test_idx)); test_idx <- test_idx + 1
+  if(!is.null(res)) chisq_results[[test_idx-1]] <- res
+}
+for(indep in c("B_Gender", "B_Education")) {
+  res <- run_chisq(indep, "Cat_Cascade_Att", paste("ChiSq", test_idx)); test_idx <- test_idx + 1
+  if(!is.null(res)) chisq_results[[test_idx-1]] <- res
+}
+
+# 3. Demographics vs Practice
+for(indep in c("B_Gender", "B_Marital", "B_Education", "B_Income")) {
+  res <- run_chisq(indep, "B_Partner_Practice", paste("ChiSq", test_idx)); test_idx <- test_idx + 1
+  if(!is.null(res)) chisq_results[[test_idx-1]] <- res
+}
+for(indep in c("B_Gender", "B_Education")) {
+  res <- run_chisq(indep, "Cat_Cascade_Prac", paste("ChiSq", test_idx)); test_idx <- test_idx + 1
+  if(!is.null(res)) chisq_results[[test_idx-1]] <- res
+}
+
+# 4. Cross-KAP Assocs
+cross_chisq <- list(
+  c("Cat_Knowledge", "Cat_Partner_Att"),
+  c("Cat_Knowledge", "Cat_Cascade_Att"),
+  c("Cat_Knowledge", "B_Partner_Practice"),
+  c("Cat_Knowledge", "Cat_Cascade_Prac"),
+  c("Cat_Partner_Att", "B_Partner_Practice"),
+  c("Cat_Cascade_Att", "Cat_Cascade_Prac")
+)
+for(cc in cross_chisq) {
+  res <- run_chisq(cc[1], cc[2], paste("ChiSq", test_idx)); test_idx <- test_idx + 1
+  if(!is.null(res)) chisq_results[[test_idx-1]] <- res
+}
+
+chisq_df_all <- do.call(rbind, chisq_results)
+write.csv(chisq_df_all, file.path(csv_dir, "inferential_chisq.csv"), row.names = FALSE)
 
 cat("Stage 5 completed. Inferential outputs saved under '", csv_dir, "'.\n\n", sep = "")
