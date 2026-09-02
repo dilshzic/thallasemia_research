@@ -1,0 +1,4 @@
+Test_Label,Independent_Variable,Dependent_Variable,Statistic,p_value,Significant
+Z-Test 1,B_Gender,B_Partner_Practice,1.7157018469386471,0.08621662656573185,No
+Z-Test 2,B_Marital,B_Partner_Practice,-3.1694067846414735,0.0015275044612717873,Yes
+Z-Test 3,B_Education,B_Partner_Practice,3.8886379847375983,0.00010080835192310207,Yes

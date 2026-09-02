@@ -207,4 +207,73 @@ for(cc in cross_chisq) {
 chisq_df_all <- do.call(rbind, chisq_results)
 write.csv(chisq_df_all, file.path(csv_dir, "inferential_chisq.csv"), row.names = FALSE)
 
+# ------------------------------------------------------------------------------
+# Run Z-Tests for Proportions
+# ------------------------------------------------------------------------------
+cat("Running Z-Tests (Proportions)...\n")
+ztest_results <- list()
+
+run_ztest <- function(indep, dep, success_val, label) {
+  sub_df <- df[!is.na(df[[indep]]) & !is.na(df[[dep]]), ]
+  groups <- unique(sub_df[[indep]])
+  if(length(groups) != 2) return(NULL)
+  
+  successes <- c(
+    sum(sub_df[[dep]][sub_df[[indep]] == groups[1]] == success_val),
+    sum(sub_df[[dep]][sub_df[[indep]] == groups[2]] == success_val)
+  )
+  totals <- c(
+    sum(sub_df[[indep]] == groups[1]),
+    sum(sub_df[[indep]] == groups[2])
+  )
+  if(any(totals == 0)) return(NULL)
+  
+  res <- tryCatch(prop.test(successes, totals, correct=FALSE), error = function(e) NULL)
+  
+  if(!is.null(res)) {
+    z_stat <- sqrt(res$statistic)
+    return(data.frame(
+      Test_Label = label,
+      Independent_Variable = indep,
+      Dependent_Variable = dep,
+      Statistic = z_stat,
+      p_value = res$p.value,
+      Significant = ifelse(res$p.value < 0.05, "Yes", "No")
+    ))
+  }
+  return(NULL)
+}
+
+test_idx <- 1
+for(indep in c("B_Gender", "B_Marital", "B_Education", "B_Income")) {
+  res <- run_ztest(indep, "B_Partner_Practice", "Safe", paste("Z-Test", test_idx)); test_idx <- test_idx + 1
+  if(!is.null(res)) ztest_results[[test_idx-1]] <- res
+}
+
+if (length(ztest_results) > 0) {
+  z_df_all <- do.call(rbind, ztest_results)
+  write.csv(z_df_all, file.path(csv_dir, "inferential_ztest.csv"), row.names = FALSE)
+}
+
+# ------------------------------------------------------------------------------
+# Run Multiple Linear Regression
+# ------------------------------------------------------------------------------
+cat("Running Multiple Linear Regression...\n")
+
+reg_df <- df[!is.na(df$Expanded_Knowledge_Score) & !is.na(df$B_Gender) & !is.na(df$B_Marital) & !is.na(df$B_Education) & !is.na(df$B_Income), ]
+if (nrow(reg_df) > 0) {
+  reg_df$B_Gender <- as.factor(reg_df$B_Gender)
+  reg_df$B_Marital <- as.factor(reg_df$B_Marital)
+  reg_df$B_Education <- as.factor(reg_df$B_Education)
+  reg_df$B_Income <- as.factor(reg_df$B_Income)
+  
+  lm_model <- lm(Expanded_Knowledge_Score ~ B_Gender + B_Marital + B_Education + B_Income, data = reg_df)
+  summary_lm <- summary(lm_model)
+  
+  coef_df <- as.data.frame(summary_lm$coefficients)
+  coef_df$Term <- rownames(coef_df)
+  coef_df$Significant <- ifelse(coef_df$`Pr(>|t|)` < 0.05, "Yes", "No")
+  write.csv(coef_df, file.path(csv_dir, "inferential_regression.csv"), row.names = FALSE)
+}
+
 cat("Stage 5 completed. Inferential outputs saved under '", csv_dir, "'.\n\n", sep = "")

@@ -2,32 +2,41 @@
 # Pipeline Stage 2: Knowledge Scores & Z-Scores Calculation
 # ==============================================================================
 
+# 1. Checking for Data
+# Make sure the 'df' data we cleaned in Stage 1 actually exists before we try scoring it.
 if (!exists("df")) {
   stop("CRITICAL ERROR: Dataframe 'df' is not available in environment. Run Stage 1 first.")
 }
 
 cat("Calculating scoring metrics...\n")
 
-# --- Identify columns for Basic Knowledge Score (Q16 & Q27 sub-columns) ---
+# 2. Finding the Questions (Q16 & Q27)
+# grep() searches for column names that match the text of Questions 16 and 27.
 q16_cols <- grep("^16\\. What are the clinical forms of thalassemia\\? \\(Tick all that apply\\)/", colnames(df), value = TRUE)
-# Exclude "I don't know" from positive points
+
+# Remove the "I don't know" option from Q16 so it doesn't count as a correct answer.
 q16_cols <- q16_cols[!grepl("I don’t know", q16_cols)]
 
 q27_cols <- grep("^27\\. Problems faced by thalassemia major patients \\(Tick all that apply\\):/", colnames(df), value = TRUE)
 
 cat("Found", length(q16_cols), "columns for Q16 (forms) and", length(q27_cols), "columns for Q27 (complications).\n")
 
-# Convert checkbox columns to numeric, replacing NA with 0
+# 3. Converting Answers to Numbers
+# Checkboxes are text, but we need numbers to calculate a score.
+# This changes text to numbers, and replaces missing data (NA) with a 0.
 df_numeric_scores <- df %>%
   dplyr::mutate(across(c(all_of(q16_cols), all_of(q27_cols)), ~ {
     val <- as.numeric(.x)
     ifelse(is.na(val), 0, val)
   }))
 
-# Compute Basic raw score (sum of Q16 and Q27 checkboxes)
+# 4. Calculating the Total Score
+# rowSums() adds up all the points from Q16 and Q27 for each person.
 df$Knowledge_Score <- rowSums(df_numeric_scores[, c(q16_cols, q27_cols)])
 
-# Calculate Basic Z-score
+# 5. Standardizing the Score (Z-Score)
+# A Z-score tells us how far a person's score is from the group average.
+# It uses the mean (average) and standard deviation (spread of the scores).
 mean_basic <- mean(df$Knowledge_Score)
 sd_basic <- sd(df$Knowledge_Score)
 df$Knowledge_Score_Z_Score <- (df$Knowledge_Score - mean_basic) / sd_basic

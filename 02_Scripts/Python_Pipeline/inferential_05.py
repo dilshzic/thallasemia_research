@@ -176,4 +176,61 @@ def run_inferential_stats(df, csv_dir):
     chisq_df_all = pd.DataFrame(chisq_results)
     chisq_df_all.to_csv(os.path.join(csv_dir, "inferential_chisq.csv"), index=False)
     
+    # --- 3. Z-Tests for Proportions ---
+    print("Running Z-Tests (Proportions)...")
+    from statsmodels.stats.proportion import proportions_ztest
+    import statsmodels.api as sm
+    import statsmodels.formula.api as smf
+    
+    ztest_results = []
+    
+    def run_ztest(indep, dep, success_val, label):
+        sub_df = df.dropna(subset=[indep, dep])
+        groups = sub_df[indep].unique()
+        if len(groups) != 2: return
+        
+        count = np.array([
+            sum(sub_df[sub_df[indep] == groups[0]][dep] == success_val),
+            sum(sub_df[sub_df[indep] == groups[1]][dep] == success_val)
+        ])
+        nobs = np.array([
+            sum(sub_df[indep] == groups[0]),
+            sum(sub_df[indep] == groups[1])
+        ])
+        if any(nobs == 0): return
+        
+        stat, pval = proportions_ztest(count, nobs)
+        ztest_results.append({
+            "Test_Label": label,
+            "Independent_Variable": indep,
+            "Dependent_Variable": dep,
+            "Statistic": stat,
+            "p_value": pval,
+            "Significant": "Yes" if pval < 0.05 else "No"
+        })
+
+    idx = 1
+    for indep in ["B_Gender", "B_Marital", "B_Education", "B_Income"]:
+        run_ztest(indep, "B_Partner_Practice", "Safe", f"Z-Test {idx}"); idx += 1
+        
+    if ztest_results:
+        z_df_all = pd.DataFrame(ztest_results)
+        z_df_all.to_csv(os.path.join(csv_dir, "inferential_ztest.csv"), index=False)
+
+    # --- 4. Multiple Linear Regression ---
+    print("Running Multiple Linear Regression...")
+    reg_df = df.dropna(subset=["Expanded_Knowledge_Score", "B_Gender", "B_Marital", "B_Education", "B_Income"]).copy()
+    if len(reg_df) > 0:
+        reg_model = smf.ols("Expanded_Knowledge_Score ~ C(B_Gender) + C(B_Marital) + C(B_Education) + C(B_Income)", data=reg_df).fit()
+        
+        coef_df = pd.DataFrame({
+            'Term': reg_model.params.index,
+            'Estimate': reg_model.params.values,
+            'Std.Error': reg_model.bse.values,
+            't_value': reg_model.tvalues.values,
+            'p_value': reg_model.pvalues.values,
+            'Significant': ["Yes" if p < 0.05 else "No" for p in reg_model.pvalues.values]
+        })
+        coef_df.to_csv(os.path.join(csv_dir, "inferential_regression.csv"), index=False)
+
     print(f"Stage 5 completed. Inferential outputs saved under '{csv_dir}'.\n")
